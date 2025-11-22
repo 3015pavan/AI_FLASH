@@ -1,5 +1,6 @@
 """
-Streamlit web interface for AI Flashcard Generator
+AI Flashcard Generator - Main Streamlit App with Navigation
+Includes flashcard generation, MCQ quiz, and progress dashboard
 """
 
 import json
@@ -8,6 +9,7 @@ from pathlib import Path
 import streamlit as st
 import PyPDF2
 import io
+from datetime import datetime
 
 try:
     from generate_simple import FlashcardGenerator
@@ -16,6 +18,11 @@ except:
         from generate import FlashcardGenerator
     except:
         FlashcardGenerator = None
+
+from quiz import QuizGenerator
+from dashboard import create_progress_database
+from pages_quiz import show_quiz_page
+from pages_dashboard import show_dashboard_page
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -228,10 +235,8 @@ def download_flashcards_json(flashcards: list):
     )
 
 
-def main():
-    """
-    Main Streamlit application.
-    """
+def show_flashcard_generator():
+    """Display the flashcard generator page."""
     
     # Header
     st.markdown("# 📚 AI Flashcard Generator")
@@ -392,6 +397,11 @@ unsupervised learning, and reinforcement learning.
         
         # Save to session state
         st.session_state.generated_flashcards = flashcards
+        st.session_state.current_topic = "General Topic"
+        
+        # Update database
+        db = create_progress_database()
+        db.update_flashcard_count(len(flashcards))
     
     # Display summary if generated
     if 'generated_summary' in st.session_state and st.session_state.generated_summary:
@@ -481,6 +491,47 @@ unsupervised learning, and reinforcement learning.
         # Show JSON preview
         with st.expander("📋 View JSON Preview"):
             st.json(flashcards)
+
+
+def main():
+    """
+    Main application with navigation.
+    """
+    
+    # Initialize session state
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = "Flashcard Generator"
+    
+    # Sidebar navigation
+    with st.sidebar:
+        st.markdown("# 🧭 Navigation")
+        
+        page = st.radio(
+            "Select Page:",
+            ["Flashcard Generator", "Take Quiz", "Progress Dashboard"],
+            index=["Flashcard Generator", "Take Quiz", "Progress Dashboard"].index(st.session_state.current_page),
+            key="page_nav"
+        )
+        
+        st.session_state.current_page = page
+        
+        st.markdown("---")
+        st.markdown("### ℹ️ App Info")
+        st.info(
+            "**AI Flashcard Generator**\n\n"
+            "📚 Generate flashcards from text\n"
+            "🎯 Take MCQ quizzes\n"
+            "📊 Track your progress\n\n"
+            "All data is stored locally."
+        )
+    
+    # Route to appropriate page
+    if st.session_state.current_page == "Flashcard Generator":
+        show_flashcard_generator()
+    elif st.session_state.current_page == "Take Quiz":
+        show_quiz_page()
+    elif st.session_state.current_page == "Progress Dashboard":
+        show_dashboard_page()
 
 
 if __name__ == '__main__':

@@ -65,6 +65,59 @@ class FlashcardGenerator:
         
         return flashcards if flashcards else self._get_sample_flashcards()
     
+    def generate_summary(self, input_text: str, max_sentences: int = 5) -> str:
+        """
+        Generate a concise summary from text.
+        
+        Args:
+            input_text: Text to summarize
+            max_sentences: Maximum sentences in summary
+            
+        Returns:
+            Summary string
+        """
+        # Clean and validate input
+        text = self._clean_text(input_text)
+        if not text or len(text) < 50:
+            logger.warning("Input text too short for summary")
+            return "Text too short to summarize. Please provide at least 50 characters."
+        
+        # Extract sentences
+        sentences = self._extract_sentences(text, max_sentences=max_sentences * 2)
+        
+        if not sentences:
+            return "Unable to generate summary from the provided text."
+        
+        # Score sentences by importance (word frequency + length)
+        scored_sentences = []
+        words = text.lower().split()
+        word_freq = {}
+        for word in words:
+            word = re.sub(r'[^\w]', '', word)
+            word_freq[word] = word_freq.get(word, 0) + 1
+        
+        for sentence in sentences:
+            score = 0
+            sentence_words = sentence.lower().split()
+            for word in sentence_words:
+                word_clean = re.sub(r'[^\w]', '', word)
+                score += word_freq.get(word_clean, 0)
+            
+            # Boost score for sentence length (prefer longer, more complete sentences)
+            if len(sentence_words) >= 10:
+                score *= 1.2
+            
+            scored_sentences.append((sentence, score))
+        
+        # Get top sentences
+        top_sentences = sorted(scored_sentences, key=lambda x: x[1], reverse=True)[:max_sentences]
+        
+        # Sort by original order and join
+        summary_sentences = [sent for sent in sorted(top_sentences, key=lambda x: sentences.index(x[0]))]
+        summary = ' '.join([sent[0] for sent in summary_sentences])
+        
+        return summary if summary else "Unable to generate a meaningful summary."
+    
     def _clean_text(self, text: str) -> str:
         """Clean input text."""
         # Remove extra whitespace

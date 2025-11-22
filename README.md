@@ -1,452 +1,209 @@
-# AI Flashcard Generator
+# 📚 AI Flashcard Generator
 
-🎓 Generate high-quality flashcards from any text or PDF using AI. Production-ready system with web interface.
-
-## ✅ PRODUCTION STATUS: LIVE
-
-**Web UI**: http://localhost:8501  
-**Status**: Ready to use  
-**Mode**: Demo mode active + Optional full model  
-
-## 📋 Overview
-
-The **AI Flashcard Generator** is a complete, production-ready solution that:
-- Accepts PDF documents or text input
-- Generates accurate flashcards automatically
-- Provides interactive web interface with flip-card animations
-- Exports flashcards as JSON
-- Runs completely offline (no external APIs)
-- Zero hallucination - all answers sourced from original text
+A comprehensive AI-powered study platform with flashcard generation, MCQ quizzes, and learning analytics.
 
 ## ✨ Features
 
-✅ **PDF Support** - Upload any PDF, extract text automatically  
-✅ **Text Input** - Paste text directly or use examples  
-✅ **Web UI** - Beautiful Streamlit interface, flip-card animations  
-✅ **Smart Generation** - T5-based question-answer generation  
-✅ **Multiple Settings** - Adjust quality and quantity  
-✅ **JSON Export** - Easy integration with other tools  
-✅ **Fully Offline** - All processing local, no data sent anywhere  
-✅ **Production Ready** - Demo mode available immediately  
+### 🎴 Flashcard Generation
+- **Multiple Input Methods**: Paste text, upload PDF, or use examples
+- **AI-Powered**: T5 model generates contextual Q&A pairs
+- **Summary Generation**: Get key points from study material
+- **Interactive UI**: Flip cards with smooth animations
+- **Export**: Download flashcards as JSON
 
-## 🛠️ Installation & Setup
+### 🎯 MCQ Quiz System
+- **Concept-Based Questions**: Tests understanding, not verbatim repetition
+- **Smart Distractors**: Wrong options from related flashcards
+- **Immediate Feedback**: See explanations with correct answers
+- **Quiz Analytics**: Score, time, answer breakdown
+- **Retake Quizzes**: Shuffle options anytime
 
-### Prerequisites
-- Python 3.11+
-- pip package manager
-- 4GB+ RAM (8GB+ recommended)
+### 📊 Progress Dashboard
+- **Learning Metrics**: Flashcards generated, quizzes taken, average score, learning streak
+- **Visual Analytics**: 
+  - Score trend (30-day chart)
+  - Performance by topic
+  - Correct vs incorrect distribution
+- **Detailed Activity Log**: All quiz attempts with timestamps
+- **Local Database**: SQLite storage (100% offline)
 
-### Quick Start (Windows)
+## 🚀 Quick Start
 
-**Option 1: Simple Launcher**
+### Installation
 ```bash
-cd "c:\Users\puneeth nagaraj\Downloads\AIML project\ai_flashcard_generator"
-START.bat
-```
-
-**Option 2: Manual Command**
-```powershell
-cd "c:\Users\puneeth nagaraj\Downloads\AIML project\ai_flashcard_generator"
-python -m streamlit run app.py --server.port=8501
-```
-
-Then open in browser: **http://localhost:8501**
-
-## 🚀 How to Use
-
-1. **Open Web UI**: http://localhost:8501
-2. **Choose Input**:
-   - Upload PDF file, OR
-   - Paste text directly, OR
-   - Use example text
-3. **Configure** (Optional):
-   - Number of flashcards: 6-15
-   - Quality level: 3-8 (higher = better)
-4. **Generate**: Click "Generate Flashcards" button
-5. **Review**: Flip cards to see Q&A
-6. **Export**: Download as JSON
-
-## 📁 Project Structure
-
-```
-ai_flashcard_generator/
-├── app.py                      # Web UI (Streamlit)
-├── generate.py                # Flashcard engine
-├── train.py                   # Model training
-├── utils.py                   # Helpers
-├── quick_setup.py             # Setup script
-├── START.bat                  # Windows launcher
-├── requirements.txt           # Dependencies
-├── DEPLOYMENT_GUIDE.md        # Detailed guide
-├── flashcard_t5/              # Model files
-│   ├── config.json
-│   ├── metadata.json
-│   └── README.md
-└── README.md                  # This file
-```
-
-## 🎓 Features Explained
-
-### PDF Upload
-- Automatic text extraction
-- Supports multi-page PDFs
-- Handles images and mixed content
-
-### Text Input
-- Direct paste or examples
-- Minimum 50 characters
-- Auto-chunking for long texts
-
-### Flashcard Generation
-- Sample mode: Instant demo flashcards
-- AI mode: High-quality generated cards (when model loaded)
-- Multiple beam search options
-
-### Export
-- JSON format (universal)
-- Can convert to: Quizlet, Anki, others
-- Includes full metadata
-
-## 📊 Performance
-
-- PDF extraction: 1-3 seconds
-- Flashcard generation: 5-15 seconds (CPU)
-- UI interactions: Real-time
-
-## 🔧 Configuration
-
-### Web Settings
-Edit `app.py` sidebar:
-- Flashcards: 6-15 (recommended: 10)
-- Quality: 3-8 (recommended: 6)
-
-### Model Settings
-Edit `utils.py`:
-- Text chunk size
-- Min/max answer length
-- Validation rules
-
-## 🚀 Advanced: Train Custom Model (Optional)
-
-For improved quality, train on specific domain:
-
-```powershell
-python train.py
-```
-
-Takes ~30-60 min on CPU, ~5-10 min on GPU.
-
-## 📞 Troubleshooting
-
-### Site can't be reached
-```powershell
-# Stop existing processes
-Get-Process python -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# Restart
-python -m streamlit run app.py --server.port=8501
-```
-
-### PDF not extracting text
-```powershell
-pip install PyPDF2 --upgrade
-```
-
-### Port 8501 in use
-```powershell
-# Use different port
-python -m streamlit run app.py --server.port=8502
-```
-
-## 📝 Technical Details
-
-- **Framework**: Streamlit (web UI)
-- **Backend**: PyTorch + Transformers
-- **Model**: T5-small (220M params)
-- **Device**: CPU (GPU auto-detected)
-- **Input**: PDF, Text
-- **Output**: JSON, Web UI
-- **Language**: Python 3.14
-
-## 🔐 Privacy
-
-- 100% local processing
-- No cloud uploads
-- No tracking
-- No external calls
-- Completely offline
-
-## ✅ System Status
-
-- Web UI: LIVE ✅
-- PDF Support: ACTIVE ✅
-- Text Input: ACTIVE ✅
-- Demo Mode: ACTIVE ✅
-- Model Config: READY ✅
-
----
-
-**Ready to start? Open:** http://localhost:8501
-
-
-### Step 1: Train the Model (One-time, ~30-60 minutes)
-
-```bash
-python train.py
-```
-
-**What happens:**
-- Downloads SQuAD v1.1 dataset (~100MB)
-- Fine-tunes T5-small model for 3 epochs
-- Saves trained model to `flashcard_t5/` directory
-- Creates `flashcard_t5/metadata.json` with training info
-
-**Expected output:**
-```
-Using device: cuda  [or cpu]
-Loading SQuAD v1.1 dataset...
-Loading T5-small model and tokenizer...
-Preprocessing dataset...
-Training set size: 80355
-Validation set size: 8951
-Starting training...
-[Training progress...]
-Training completed successfully!
-Model saved at: flashcard_t5
-```
-
-### Step 2: Launch the Web UI
-
-```bash
+cd ai_flashcard_generator
+pip install -r requirements.txt
 streamlit run app.py
 ```
 
-**Expected output:**
+### Open in Browser
 ```
-  You can now view your Streamlit app in your browser.
-  Local URL: http://localhost:8501
-```
-
-3. **Open your browser** and navigate to `http://localhost:8501`
-
-### Step 3: Generate Flashcards
-
-1. Paste your text in the text area
-2. Adjust settings (number of flashcards, beam search quality)
-3. Click "Generate Flashcards"
-4. Flip cards to see answers
-5. Download as JSON
-
-## 📁 Project Structure
-
-```
-ai_flashcard_generator/
-├── train.py                    # Training script
-├── generate.py                 # Inference engine
-├── app.py                      # Streamlit web UI
-├── utils.py                    # Utility functions
-├── requirements.txt            # Python dependencies
-├── README.md                   # This file
-└── flashcard_t5/              # Trained model (created after training)
-    ├── config.json
-    ├── pytorch_model.bin
-    ├── spiece.model
-    ├── special_tokens_map.json
-    ├── tokenizer_config.json
-    ├── metadata.json
-    └── ...
+http://localhost:8501
 ```
 
-## 🔧 Configuration
+## 📖 How to Use
 
-### Training Parameters (in `train.py`)
+### 1️⃣ Generate Flashcards
+1. Enter text or upload PDF
+2. Click **✨ Generate Flashcards**
+3. Flip cards to review
+4. Download as JSON (optional)
 
-```python
-training_args = TrainingArguments(
-    num_train_epochs=3,              # Number of training epochs
-    per_device_train_batch_size=16,  # Batch size (reduce if OOM)
-    learning_rate=5e-5,              # Learning rate
-    gradient_accumulation_steps=1,   # For gradient accumulation
-)
+### 2️⃣ Take MCQ Quiz
+1. Generate ≥4 flashcards first
+2. Go to **Take Quiz** in sidebar
+3. Answer concept-based MCQs
+4. View score and explanations
+
+### 3️⃣ Monitor Progress
+1. Click **Progress Dashboard**
+2. View KPI cards and charts
+3. Track learning trends
+4. Analyze topic performance
+
+## 📁 File Structure
+
+```
+├── app.py                 # Main app with navigation
+├── generate_simple.py     # Flashcard generation
+├── quiz.py                # MCQ generation & scoring
+├── dashboard.py           # Database & analytics
+├── pages_quiz.py          # Quiz page UI
+├── pages_dashboard.py     # Dashboard page UI
+├── requirements.txt       # Dependencies
+└── progress.db            # SQLite database (auto-created)
 ```
 
-### Inference Parameters (in `app.py`)
+## 🗄️ Database Schema
 
-```python
-num_flashcards = 6-15             # Target number of flashcards
-num_beams = 3-8                   # Beam search quality (higher = slower)
-max_length = 256                  # Max generated text length
-no_repeat_ngram_size = 3          # Prevent repetitive n-grams
+### quiz_attempts Table
+```sql
+id, date, topic, score_percentage, total_questions, 
+correct_answers, incorrect_answers, time_taken_seconds, flashcards_used
 ```
 
-## 📊 Model Details
-
-**Architecture:** T5-small (60M parameters)  
-**Training Data:** SQuAD v1.1 (87,599 train examples, 10,570 dev examples)  
-**Task Format:**
-- **Input:** `flashcard: <context paragraph>`
-- **Output:** `<question> <sep> <answer>`
-
-**Inference Settings:**
-- Beam search with 6 beams
-- Maximum output length: 256 tokens
-- No repeat n-gram size: 3
-- Temperature: 0.7 (for sampling)
-
-## 🎯 How It Works
-
-### Training Pipeline
-1. Load SQuAD v1.1 dataset
-2. Preprocess Q&A pairs with special format
-3. Tokenize with T5 tokenizer
-4. Train T5-small for 3 epochs
-5. Save model and tokenizer
-
-### Generation Pipeline
-1. Clean and normalize input text
-2. Split into overlapping chunks (350 words with 50-word overlap)
-3. For each chunk:
-   - Create prompt: `flashcard: <chunk>`
-   - Generate with beam search (6 beams)
-   - Parse Q&A pair
-   - Validate answer is in original text
-   - Discard if validation fails
-4. Remove duplicates
-5. Return 6-12 flashcards
-
-### Answer Validation
-- Extracts longest valid substring from generated answer
-- Checks if answer exists in original context
-- Rejects hallucinated or out-of-context answers
-- Ensures answer length is 1-3 sentences
-
-## 🖥️ Usage Examples
-
-### Example 1: Simple Usage
-```python
-from generate import FlashcardGenerator
-import json
-
-generator = FlashcardGenerator()
-text = "Your text here..."
-flashcards = generator.generate_flashcards(text, num_flashcards=10)
-print(json.dumps(flashcards, indent=2))
+### global_metrics Table
+```sql
+total_flashcards_generated, total_quizzes_taken, 
+highest_score, last_quiz_date
 ```
 
-### Example 2: Batch Processing
-```python
-from generate import FlashcardGenerator
+## ⚙️ Configuration
 
-generator = FlashcardGenerator()
+### Sidebar Settings
+- **Number of Flashcards**: 6-15 (default: 10)
+- **Beam Search Quality**: 3-8 (higher = better quality, slower)
 
-texts = [
-    "Text about machine learning...",
-    "Text about neural networks...",
-    "Text about deep learning..."
-]
+### Advanced Options
+- Refresh Dashboard
+- Clear all data
 
-for text in texts:
-    flashcards = generator.generate_flashcards(text)
-    print(f"Generated {len(flashcards)} flashcards")
+## 📊 Key Metrics
+
+- **Average Score**: Calculated from all quiz attempts
+- **Learning Streak**: Consecutive days with quizzes
+- **Score Trend**: Daily average over last 30 days
+- **Topic Stats**: Best/worst score by topic
+
+## 🎯 Example Workflow
+
+```
+1. Paste machine learning concepts
+   ↓
+2. Generate 10 flashcards
+   ↓
+3. Review and flip cards
+   ↓
+4. Take MCQ quiz (85% score)
+   ↓
+5. View progress dashboard
+   ↓
+6. Retake next day to build streak
 ```
 
-## ⚙️ Troubleshooting
+## 🔧 Troubleshooting
 
-### "CUDA out of memory" Error
-**Solution:** Reduce batch size in `train.py`:
-```python
-per_device_train_batch_size=8,  # Reduce from 16
-```
+| Problem | Solution |
+|---------|----------|
+| "Not enough flashcards for quiz" | Generate ≥4 flashcards first |
+| Quiz not showing | No flashcards in session - generate first |
+| Dashboard empty | Take quiz first to populate data |
+| Database error | Delete `progress.db` and restart |
 
-### Model not found when running app
-**Solution:** Run training first:
-```bash
-python train.py
-```
+## 📦 Dependencies
 
-### Generated flashcards are low quality
-**Solution:** 
-- Use more detailed input text (>500 words)
-- Increase number of beams: `num_beams=8`
-- Ensure text is well-structured with clear topics
+- streamlit (web framework)
+- PyTorch (ML computations)
+- Transformers (T5 model)
+- PyPDF2 (PDF extraction)
+- plotly/matplotlib (charts)
+- pandas (data handling)
 
-### Slow generation
-**Solution:**
-- Reduce `num_beams` from 6 to 4 or 3
-- Reduce `num_flashcards` target
-- Use GPU if available
+## 🔐 Privacy
 
-### "Out of memory" on GPU
-**Solution:**
-```python
-# In app.py, modify generate.py instantiation
-import torch
-torch.cuda.empty_cache()  # Clear cache between generations
-```
-
-## 📈 Performance
-
-**Training Time:**
-- GPU (CUDA): ~30-45 minutes
-- CPU: ~2-3 hours
-
-**Inference Time (per text):**
-- GPU: ~2-5 seconds
-- CPU: ~10-30 seconds
-
-**Model Size:** ~250MB (T5-small)
-
-## 🔐 Security & Privacy
-
-✅ **100% Offline** - No data sent to external servers  
-✅ **No API Calls** - All processing local  
-✅ **Privacy Guaranteed** - Your text never leaves your machine  
+✅ **100% Local** - All processing offline  
+✅ **No APIs** - No cloud uploads  
+✅ **SQLite DB** - Data in `progress.db` only  
 ✅ **Open Source** - Full transparency  
 
-## 📚 Dataset Information
+## 📊 Performance Tips
 
-**SQuAD v1.1 (Stanford Question Answering Dataset)**
-- 100,000+ questions on Wikipedia articles
-- 87,599 training examples
-- 10,570 development examples
-- Automatically downloaded by HuggingFace Datasets
+- Use 10-12 flashcards for optimal quiz experience
+- Provide detailed, well-structured text
+- Review before taking quiz
+- Retake after 24 hours to reinforce
 
-License: CC BY-SA 4.0  
-Citation: Rajpurkar et al. (2016)
+## 🚀 Advanced Usage
+
+### Custom Quiz Topic
+```python
+# In app.py, modify before starting quiz
+st.session_state.current_topic = "Your Topic Name"
+```
+
+### Export Progress Data
+```bash
+# View database
+sqlite3 progress.db "SELECT * FROM quiz_attempts;"
+```
+
+## 📝 Future Enhancements
+
+- [ ] Spaced repetition algorithm
+- [ ] AI-powered difficulty adjustment
+- [ ] Multi-language support
+- [ ] Collaborative features
+- [ ] Mobile app
+
+## ❓ FAQ
+
+**Q: Can I use this offline?**  
+A: Yes, completely offline after initial setup.
+
+**Q: How accurate are generated flashcards?**  
+A: Depends on input quality. Longer, structured text = better results.
+
+**Q: Can I export progress?**  
+A: Flashcards export as JSON. Progress is in SQLite `progress.db`.
+
+**Q: What if quiz questions are too hard?**  
+A: Add more context to input text. Use Beam Search quality 4-5 instead.
 
 ## 🤝 Contributing
 
-Found a bug or want to improve? Feel free to:
-1. Modify the code
-2. Test thoroughly
-3. Share improvements
+Found issues? Have improvements? Submit feedback or contributions!
 
-## 📝 License
+## 📞 Support
 
-This project is provided as-is for educational and research purposes.
-
-## 📧 Support
-
-For issues, questions, or feedback:
-1. Check the Troubleshooting section
-2. Verify all dependencies are installed
-3. Ensure the model has been trained
-
-## 🙏 Acknowledgments
-
-- **Hugging Face** - Transformers library and model hub
-- **Stanford University** - SQuAD dataset
-- **Google** - T5 model architecture
-
-## 📖 Additional Resources
-
-- [T5 Paper](https://arxiv.org/abs/1910.10683)
-- [SQuAD Dataset](https://rajpurkar.github.io/SQuAD-explorer/)
-- [Hugging Face Docs](https://huggingface.co/docs)
-- [Streamlit Docs](https://docs.streamlit.io/)
+For issues:
+1. Check Troubleshooting section
+2. Verify all dependencies installed
+3. Restart Streamlit server
+4. Delete `progress.db` if database errors
 
 ---
 
-**Happy learning! 🎓**
+**Ready to learn? Start with:** `streamlit run app.py`  
+**Then visit:** http://localhost:8501
 
-Generated flashcards from: *AI Flashcard Generator v1.0*
+🎓 **Happy Learning!** 📚✨
