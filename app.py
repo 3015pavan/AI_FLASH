@@ -17,6 +17,8 @@ except:
     except:
         FlashcardGenerator = None
 
+from dashboard import ProgressDatabase
+
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -228,17 +230,8 @@ def download_flashcards_json(flashcards: list):
     )
 
 
-def main():
-    """
-    Main Streamlit application.
-    """
-    
-    # Header
-    st.markdown("# 📚 AI Flashcard Generator")
-    st.markdown(
-        "Transform your notes and text into interactive flashcards using AI! "
-        "Our trained model generates questions and answers automatically."
-    )
+def show_flashcard_generator():
+    """Display the flashcard generator page."""
     
     # Sidebar
     with st.sidebar:
@@ -392,6 +385,10 @@ unsupervised learning, and reinforcement learning.
         
         # Save to session state
         st.session_state.generated_flashcards = flashcards
+        
+        # Update database metrics
+        db = ProgressDatabase()
+        db.update_flashcard_count(len(flashcards))
     
     # Display summary if generated
     if 'generated_summary' in st.session_state and st.session_state.generated_summary:
@@ -481,6 +478,53 @@ unsupervised learning, and reinforcement learning.
         # Show JSON preview
         with st.expander("📋 View JSON Preview"):
             st.json(flashcards)
+
+
+def main():
+    """
+    Main application with navigation.
+    """
+    
+    # Initialize session state
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = 0
+    
+    # ===== HEADER AT ABSOLUTE TOP =====
+    col1 = st.columns(1)[0]
+    col1.markdown(
+        '<h1 style="text-align: center; margin-top: 0; margin-bottom: 10px; padding-top: 0;">📚 AI Flashcard Generator</h1>',
+        unsafe_allow_html=True
+    )
+    col1.markdown(
+        '<p style="text-align: center; color: #666; margin: 0 0 40px 0; font-size: 16px;">Transform your notes and text into interactive flashcards using AI!</p>',
+        unsafe_allow_html=True
+    )
+    
+    # ===== SIDEBAR INFO =====
+    with st.sidebar:
+        st.markdown("### 📌 App Info")
+        st.markdown(
+            "📚 **Generate** flashcards from text or PDF\n\n"
+            "📄 **Summarize** your study material\n\n"
+            "🎯 **Take Quiz** with concept-based MCQs\n\n"
+            "📊 **Track Progress** with analytics"
+        )
+        st.markdown("---")
+    
+    # ===== NAVIGATION TABS =====
+    st.divider()
+    tab1, tab2, tab3 = st.tabs(["📝 Flashcard Generator", "🎯 Take Quiz", "📊 Progress Dashboard"])
+    
+    with tab1:
+        show_flashcard_generator()
+    
+    with tab2:
+        from pages_quiz import show_quiz_page
+        show_quiz_page()
+    
+    with tab3:
+        from pages_dashboard import show_dashboard_page
+        show_dashboard_page()
 
 
 if __name__ == '__main__':
