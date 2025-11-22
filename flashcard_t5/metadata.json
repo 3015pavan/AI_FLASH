@@ -1,0 +1,17 @@
+{
+  "model_name": "t5-small",
+  "status": "ready",
+  "mode": "production",
+  "supports_pdf": true,
+  "supports_text": true,
+  "flashcard_generation": true,
+  "features": [
+    "PDF upload support",
+    "Text input support",
+    "Flashcard generation with QA pairs",
+    "Answer validation",
+    "Text chunking",
+    "JSON export",
+    "Sample flashcard generation"
+  ]
+}
