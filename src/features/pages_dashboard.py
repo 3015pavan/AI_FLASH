@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
-from dashboard import create_progress_database
+from src.features.dashboard import create_progress_database
 
 def show_dashboard_page():
     """Display the progress dashboard."""

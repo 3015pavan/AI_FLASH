@@ -1,0 +1,89 @@
+# AI Flashcard Tutor - Configuration File
+# ==================================================
+
+# Model Configuration
+model:
+  name: "t5-base"
+  pretrained_path: "models/flashcard_t5"
+  max_input_length: 512
+  max_output_length: 128
+  vocab_size: 32128
+  
+  # Generation Parameters
+  generation:
+    num_beams: 6
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.2
+    length_penalty: 1.0
+    early_stopping: true
+
+# Training Configuration
+training:
+  dataset: "squad_v1"
+  batch_size: 16
+  learning_rate: 0.0001
+  num_epochs: 5
+  warmup_steps: 500
+  weight_decay: 0.01
+  gradient_accumulation_steps: 2
+  max_grad_norm: 1.0
+  
+  # Data Split
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  
+  # Optimizer
+  optimizer: "adamw"
+  scheduler: "linear"
+  
+  # Checkpointing
+  save_steps: 1000
+  eval_steps: 500
+  logging_steps: 100
+  save_total_limit: 3
+
+# Data Configuration
+data:
+  database_path: "data/progress.db"
+  cache_dir: "data/cache"
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  
+  # Text Processing
+  chunk_size: 350
+  chunk_overlap: 50
+  min_text_length: 100
+  max_flashcards: 10
+
+# Application Configuration
+app:
+  title: "AI Flashcard Tutor"
+  port: 8501
+  theme: "light"
+  max_upload_size_mb: 200
+  
+  # Features
+  enable_quiz: true
+  enable_analytics: true
+  enable_pdf_upload: true
+  
+  # Session
+  session_timeout_minutes: 30
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  log_file: "flashcard_tutor.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Paths
+paths:
+  models_dir: "models"
+  data_dir: "data"
+  logs_dir: "logs"
+  notebooks_dir: "notebooks"
+  docs_dir: "docs"

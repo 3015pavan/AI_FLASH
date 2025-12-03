@@ -18,9 +18,11 @@ class ProgressDatabase:
     SQLite database manager for storing quiz attempts and learning metrics.
     """
     
-    DB_FILE = 'progress.db'
+    DB_FILE = 'data/progress.db'
     
     def __init__(self):
+        # Ensure data directory exists
+        Path('data').mkdir(exist_ok=True)
         self.db_path = Path(self.DB_FILE)
         self._init_database()
     

@@ -4,8 +4,8 @@ Quiz page for Streamlit multi-page app
 
 import streamlit as st
 import time
-from quiz import QuizGenerator
-from dashboard import create_progress_database
+from src.inference.quiz import QuizGenerator
+from src.features.dashboard import create_progress_database
 
 def show_quiz_page():
     """Display the quiz interface."""

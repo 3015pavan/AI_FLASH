@@ -8,16 +8,21 @@ from pathlib import Path
 import streamlit as st
 import PyPDF2
 import io
+import sys
+from pathlib import Path
+
+# Add src directory to path
+sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
 try:
-    from generate_simple import FlashcardGenerator
+    from src.models.generate_simple import FlashcardGenerator
 except:
     try:
-        from generate import FlashcardGenerator
+        from src.models.generate import FlashcardGenerator
     except:
         FlashcardGenerator = None
 
-from dashboard import ProgressDatabase
+from src.features.dashboard import ProgressDatabase
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -96,7 +101,7 @@ def load_generator():
     Always returns a working generator in demo mode.
     """
     try:
-        return FlashcardGenerator(model_dir='flashcard_t5')
+        return FlashcardGenerator(model_dir='models/flashcard_t5')
     except Exception as e:
         st.info("Running in demo mode - sample flashcards available")
         return FlashcardGenerator()
@@ -519,11 +524,11 @@ def main():
         show_flashcard_generator()
     
     with tab2:
-        from pages_quiz import show_quiz_page
+        from src.features.pages_quiz import show_quiz_page
         show_quiz_page()
     
     with tab3:
-        from pages_dashboard import show_dashboard_page
+        from src.features.pages_dashboard import show_dashboard_page
         show_dashboard_page()
 
 
