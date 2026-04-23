@@ -533,19 +533,7 @@ Contributions are welcome! Here's how:
 - 🎨 UI enhancements
 - 🚀 Performance optimizations
 
----
 
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👥 Authors
-
-- **Puneeth** - *Initial Development* - [GitHub](https://github.com/puneeth-webdev218)
-
----
 
 ## 🙏 Acknowledgments
 
@@ -557,16 +545,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 📧 Contact & Support
 
-**For Questions or Issues:**
-- 📮 GitHub Issues: [Create Issue](https://github.com/puneeth-webdev218/AI-FLASHCARD-TUTOR/issues)
-- 📧 Email: [Your Email]
-- 💬 Discussions: [GitHub Discussions](https://github.com/puneeth-webdev218/AI-FLASHCARD-TUTOR/discussions)
-
-**Response Time:** Usually within 24-48 hours
-
----
 
 ## 🔗 Useful Links
 
@@ -753,6 +732,5 @@ streamlit run app.py
 
 ---
 
-**Made with ❤️ and 🤖 by AI Enthusiasts**
 
 *Powered by Transformers, PyTorch, and Streamlit*
