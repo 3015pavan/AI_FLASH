@@ -250,7 +250,7 @@ AI-FLASHCARD-TUTOR/
 
 ### **Step 1: Clone Repository**
 ```bash
-git clone https://github.com/puneeth-webdev218/AI-FLASHCARD-TUTOR.git
+git clone https://github.com/3015pavan/AI_FLASH.git
 cd AI-FLASHCARD-TUTOR
 ```
 
